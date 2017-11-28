@@ -16,6 +16,11 @@ public:
   Devide_by_Zero_Exception() : Exception("Devide by Zero") {}
 };
 
+class Invalid_Operator_Exception : public Exception {
+public:
+  Invalid_Operator_Exception() : Exception("Invalid Operator") {}
+};
+
 int calc(char op, int a, int b) {
   switch (op) {
   case '+':
@@ -32,6 +37,8 @@ int calc(char op, int a, int b) {
       throw Devide_by_Zero_Exception();
     return a / b;
     break;
+  default: // e.g. op == '%''
+    throw Invalid_Operator_Exception();
   }
   return 0;
 }
