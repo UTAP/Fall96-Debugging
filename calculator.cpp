@@ -21,6 +21,11 @@ public:
   Invalid_Operator_Exception() : Exception("Invalid Operator") {}
 };
 
+class Invalid_Operand_Exception : public Exception {
+public:
+  Invalid_Operand_Exception() : Exception("Invalid Operand") {}
+};
+
 int calc(char op, int a, int b) {
   switch (op) {
   case '+':
@@ -46,8 +51,10 @@ int calc(char op, int a, int b) {
 int main() {
   int a, b;
   char op;
-  cin >> a >> op >> b;
   try {
+    cin >> a >> op >> b;
+    if (cin.fail()) // e.g. a == 'a'
+      throw Invalid_Operand_Exception();
     cout << calc(op, a, b) << endl;
   } catch (Exception e) {
     cerr << "× Err:\t" << e.what() << endl;
