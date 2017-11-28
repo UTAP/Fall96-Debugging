@@ -2,6 +2,20 @@
 
 using namespace std;
 
+class Exception {
+private:
+  string _what;
+
+public:
+  Exception(string what) : _what(what) {}
+  string what() { return _what; }
+};
+
+class Devide_by_Zero_Exception : public Exception {
+public:
+  Devide_by_Zero_Exception() : Exception("Devide by Zero") {}
+};
+
 int calc(char op, int a, int b) {
   switch (op) {
   case '+':
@@ -14,6 +28,8 @@ int calc(char op, int a, int b) {
     return a * b;
     break;
   case '/':
+    if (b == 0)
+      throw Devide_by_Zero_Exception();
     return a / b;
     break;
   }
@@ -24,6 +40,10 @@ int main() {
   int a, b;
   char op;
   cin >> a >> op >> b;
-  cout << calc(op, a, b) << endl;
+  try {
+    cout << calc(op, a, b) << endl;
+  } catch (Exception e) {
+    cerr << "× Err:\t" << e.what() << endl;
+  }
   return 0;
 }
